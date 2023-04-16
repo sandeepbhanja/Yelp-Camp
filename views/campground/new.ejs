@@ -1,27 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Campground</title>
-</head>
-<body>
-    <form action="/campgrounds" method="POST">
-        <label for="title">Title</label>
-        <input type="text" name="campground[title]" id="title" placeholder="Campground Title">
-        <br>
-        <label for="location">Location</label>
-        <input type="text" id="location" name="campground[location]" placeholder="Location">
-        <br>
-        <label for="description">Description</label>
-        <textarea name="campground[description]" id="description" cols="30" rows="10"></textarea>
-        <br>
-        <label for="price">Price</label>
-        <input type="text" name="campground[price]" id="price" placeholder="Price">
-        <br>
-        <button>Add Campground</button>
-    </form>
-    <a href="/campgrounds">Back</a>
-</body>
-</html>
+<% layout('/layout/boilerplate.ejs') %>
+    <div class="row">
+        <h1 class="text-center">New Campground</h1>
+        <div class="col-6 offset-3">
+            <form action="/campgrounds" method="POST" class="mb-3">
+                <div class="mb-2">
+                    <label class='form-label' for="title">Title</label>
+                    <input class='form-control' type="text" name="campground[title]" id="title" placeholder="Campground Title">
+                </div>
+                <div class="mb-2">
+                    <label class='form-label' for="location">Location</label>
+                    <input class='form-control' type="text" id="location" name="campground[location]" placeholder="Location">
+                </div>
+                <div class="mb-2">
+                    <label class='form-label' for="imageUrl">Image Url</label>
+                    <input class='form-control' type="text" id="imageUrl" name="campground[image]" placeholder="Image Url">
+                </div>
+                <div class="mb-2">
+                    <label class='form-label' for="description">Description</label>
+                    <textarea class='form-control' name="campground[description]" id="description" cols="30" rows="2"></textarea>
+                </div class='mb-2'>
+                <label for="price" class="form-label">Price</label>
+                    <div class="input-group mb-1">    
+                        <span class="input-group-text" id="price-label">$</span>
+                        <input type="number" class="form-control" id="price" placeholder="0" name="campground[price]">
+                    </div>
+                <button class="btn btn-success">Add Campground</button>
+            </form>
+            <form action="/campgrounds " method="GET">
+                <button class="btn btn-primary">Go back</button>
+            </form>
+        </div>
+    </div>
