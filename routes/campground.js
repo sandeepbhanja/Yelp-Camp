@@ -3,6 +3,7 @@ const router = express.Router({mergeParams: true});
 const catchAsync = require("../utils/catchAsync");
 const expressError = require("../utils/expressError");
 const Campground = require("../models/campground");
+const {isLoggedIn} = require("../middleware");
 
 router.get(
   "/",
@@ -12,7 +13,7 @@ router.get(
   })
 );
 router.get(
-  "/new",
+  "/new", isLoggedIn,
   catchAsync(async (req, res) => {
     res.render("campground/new");
   })
@@ -22,15 +23,15 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const camp = await Campground.findById(id).populate("reviews");
-    if(!camp){
-      req.flash('error','Campground not found!!');
-      return res.redirect('/campgrounds');
+    if (!camp) {
+      req.flash("error", "Campground not found!!");
+      return res.redirect("/campgrounds");
     }
     res.render("campground/show", { camp });
   })
 );
 router.get(
-  "/:id/edit",
+  "/:id/edit", isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const camp = await Campground.findById(id);
@@ -45,12 +46,13 @@ router.get(
 //post route
 router.post(
   "/",
+  isLoggedIn,
   catchAsync(async (req, res, next) => {
     if (!req.body.campground)
       throw new expressError("Invalid CampGround data", 400);
     const camp = new Campground(req.body.campground);
     await camp.save();
-    req.flash('success','Successfully created a campground');
+    req.flash("success", "Successfully created a campground");
     res.redirect(`/campgrounds/${camp._id}`);
   })
 );
@@ -58,10 +60,11 @@ router.post(
 //put route
 router.put(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndUpdate(id, { ...req.body.campground });
-    req.flash('success','Successfully updated the campground');
+    req.flash("success", "Successfully updated the campground");
     res.redirect(`/campgrounds/${id}`);
   })
 );
@@ -69,6 +72,7 @@ router.put(
 //delete route
 router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);

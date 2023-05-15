@@ -7,8 +7,12 @@ const ejsMate = require("ejs-mate");
 const expressError = require("./utils/expressError");
 const campgroundRoute = require("./routes/campground");
 const reviewRoute = require("./routes/reviews");
+const userRoute = require('./routes/users');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalPassport = require('passport-local');
+const User = require('./models/user');
 
 mongoose.connect("mongodb://localhost:27017/yelpCamp", {
   useNewUrlParser: true,
@@ -40,7 +44,16 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalPassport(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next)=>{
+  console.log(req.session);
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
@@ -48,6 +61,7 @@ app.use((req,res,next)=>{
 
 app.use('/campgrounds',campgroundRoute);
 app.use("/campgrounds/:id/reviews", reviewRoute);
+app.use('/',userRoute);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
