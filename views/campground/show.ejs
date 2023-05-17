@@ -1,8 +1,25 @@
 <% layout('/layout/boilerplate.ejs') %>
+    <link rel="stylesheet" href="/stylesheet/star.css">
     <div class="row">
         <div class="col-6">
             <div class="card mb-3">
-                <img src="<%=camp.image%>" class="card-img-top img-fluid" alt="...">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade">
+                    <div class="carousel-inner">
+                        <% for(let image of camp.image) { %>
+                        <div class="carousel-item active">
+                            <img src="<%=image.url%>" class="d-block w-100" alt="...">
+                        </div>
+                        <%}%>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">
                         <%=camp.title%>
@@ -34,13 +51,33 @@
                     <%}%>
             </div>
         </div>
+
+
+
+
         <div class="col-6">
             <h2>Leave a Review</h2>
             <form class='form-label' action="/campgrounds/<%=camp._id%>/reviews" method='POST'
                 class="mb-3 validated-form" novalidate>
-                <div class="'mb-3">
+                <!-- <div class="'mb-3">
                     <label class='form-label' for="rating">Rating</label>
                     <input class='form-range' type="range" name="review[rating]" id="rating" min="1" max="5">
+                </div> -->
+                <div class="mb-1">
+                    <fieldset class="starability-basic">
+                        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                            aria-label="No rating." />
+                        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                        <label for="first-rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                        <label for="first-rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                        <label for="first-rate3" title="Average">3 stars</label>
+                        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                        <label for="first-rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                        <label for="first-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
                 </div>
                 <div class="mb-3">
                     <label class='form-label' for="body">Review</label>
@@ -48,15 +85,17 @@
                 </div>
                 <button class="btn btn-success">Submit</button>
             </form>
+
+
+
+
             <h2>Reviews</h2>
             <% for(let review of camp.reviews) { %>
                 <div class="card mb-3">
                     <div class="mb-3 card-body">
-                        <h5 class="card-title">Rating: <%=review.rating%>
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            <%=review.author.username%>
-                        </h6>
+                        <p class="card-title starability-result" data-rating="<%=review.rating%>">
+                            Rating: <%= review.rating%> stars
+                        </p>
                         <p>
                             <%=review.body%>
                         </p>

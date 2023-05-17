@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== 'production'){
+  require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -70,6 +74,7 @@ app.get("/", (req, res) => {
 app.all("*", (req, res, next) => {
   next(new expressError("Page Not Found", 404));
 });
+
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = "Something went wrong";
