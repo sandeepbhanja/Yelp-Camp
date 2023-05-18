@@ -1,30 +1,34 @@
 <%- layout('/layout/boilerplate.ejs') %>
 
-    <div class="row">
-        <h1 class="mb-4 text-center">Sign-In</b></h1>
-        <div class="col-6 offset-3">
-            <form action="/sign-in" method="POST" class="mb-3  validated-form" novalidate>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" required class="form-control"
-                        placeholder="Username">
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4 mt-5">
+                <div class="card shadow">
+                    <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2FtcGluZ3xlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"
+                        alt="" class="card-img-top" />
+                    <div class="card-body">
+                        <h5 class="card-title">Login</h5>
+                        <form action="/sign-in" method="POST" class="validated-form" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" autofocus
+                                    required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <button class="btn btn-success btn-block">Sign-In</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" required class="form-control" min="8"
-                        placeholder="Password">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" required class="form-control" placeholder="Email">
-                </div>
-                <button class="btn btn-success mb-3 center-align">Sign In</button>
-            </form>
-        </div>
-        <div class="col-6 offset-3 text-center">
-           <form action="/register" method="GET">
-            <h5 class="text-muted">Don't have an account?</h5>
-            <button class="btn btn-link" style="text-decoration: none;color: grey;">Sign Up Now</button>
-           </form>
+            </div>
         </div>
     </div>
