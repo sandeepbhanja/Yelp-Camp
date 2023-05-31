@@ -2,6 +2,8 @@ if(process.env.NODE_ENV !== 'production'){
   require('dotenv').config();
 }
 
+
+
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -17,6 +19,9 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalPassport = require('passport-local');
 const User = require('./models/user');
+const mongoSanitize = require('express-mongo-sanitize');
+const MongoDBStore = require('connect-mongo')(session);
+// const dbUrl = process.env.DB_URL;
 
 mongoose.connect("mongodb://localhost:27017/yelpCamp", {
   useNewUrlParser: true,
@@ -34,8 +39,27 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(mongoSanitize());
+
+app.use(
+  mongoSanitize({
+    replaceWith: "_",
+  })
+);
+
+const store = new MongoDBStore({
+  url: "mongodb://localhost:27017/yelpCamp",
+  secret: "maverick",
+  touchAfter: 24*60*60
+});
+
+store.on('error', function(e){
+  console.log('Session Store Error',e)
+})
 
 const sessionConfig = {
+  store,
+  name:'session',
   secret: "maverick",
   resave: false,
   saveUninitialized: true,

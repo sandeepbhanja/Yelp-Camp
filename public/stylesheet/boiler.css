@@ -1,0 +1,7 @@
+body{
+        height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://static.vecteezy.com/system/resources/thumbnails/000/625/844/small_2x/Geometric_abstract_light_blue_background_for_website_wallpapers_bussines_templates.jpg");
+    background-size: cover;
+    background-position: center;
+}
