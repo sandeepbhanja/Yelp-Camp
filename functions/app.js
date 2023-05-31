@@ -3,7 +3,7 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 
-
+const serverless = require('serverless-http');
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -88,12 +88,12 @@ app.use((req,res,next)=>{
   next();
 })
 
-app.use('/campgrounds',campgroundRoute);
-app.use("/campgrounds/:id/reviews", reviewRoute);
-app.use('/',userRoute);
+app.use('/.netlify/functions/api/campgrounds',campgroundRoute);
+app.use("/.netlify/functions/api/campgrounds/:id/reviews", reviewRoute);
+app.use("/.netlify/functions/api", userRoute);
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
+app.get("/.netlify/functions/api", (req, res) => {
   res.render("home");
 });
 
@@ -109,3 +109,5 @@ app.use((err, req, res, next) => {
 app.listen(3000, () => {
   console.log("Port 3000");
 });
+
+module.exports.handler = serverless(app);
